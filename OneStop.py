@@ -5,7 +5,7 @@
 import datetime
 
 #Constants
-PolicyNum = 1944
+POLICY = 1944
 BASICPREMIUM = 869.00
 ADDCARDISCOUNT = 0.25
 COSTEXTLIABILITY = 130.00
@@ -16,7 +16,6 @@ PROCESSFEE = 39.99
 
 def nextpayment(OldDate):
 
-    PayDayDay = OldDate.day
     PayDayMonth = OldDate.month
     PayDayYear = OldDate.year
 
@@ -39,13 +38,11 @@ def paytypes(type):
     if type == "Monthly":
         RecBottom = f"   Monthly Payment:              {MonthlyCostDisp}"
     elif type == "Downpay":
-        RecBottom = f"   Downpay Amount:             {DownpayAmountDisp}"
-        RecBottom = f"   Monthly Payment:              {MonthlyCostDisp}"
+        RecBottom = f"   Downpay Amount:                             {DownpayAmountDisp}\n   Monthly Payment:                             {MonthlyCostDisp}\n   Next payment date:                          {nextpayment(datetime.datetime.today())}"
     elif type == "Full":
         RecBottom = f"   Payment Amount in full:                     {TotalCostDisp}"
 
     return RecBottom
-
 
  #Main loop.
 while True: 
@@ -123,17 +120,16 @@ while True:
         while True:
             try:
                 Date = input("Enter the date of previous insurance claim. (YYYY-MM-DD)  (If skip please leave blank)")
-                DateDisp = datetime.datetime.strptime(Date, "%Y-%m-%d")
-            except:
                 if Date == "":
                     break
-                else:
-                    print("The entered date is invalid. Please re-enter.")
+                DateDisp = datetime.datetime.strptime(Date, "%Y-%m-%d")
+            except:
+                print("The entered date is invalid. Please re-enter.")
             else:
                 break
-        PrevClaimDates.append(Date)
         if Date == "":
             break
+        PrevClaimDates.append(Date)
         while True:
             try:
                 PrevCost = float(input("Enter the previous cost of previous claims: "))
@@ -146,22 +142,8 @@ while True:
                     break
         PrevClaimCosts.append(PrevCost)
 
-        break
-
-    print(PrevClaimDates)
-    print(PrevClaimCosts)    
 
 
-
-
-
-
-
-
-    NumCars = 5
-    ExtLiability = "Y"
-    GlassCover = "Y"
-    LoanerCar = "Y"
 
     #Calculations
     #Cost of car and extra cars
@@ -174,7 +156,7 @@ while True:
     if ExtLiability == "Y":
         ExtLiabCost = 130.00
     else:
-        ExtLiability = 0.00
+        ExtLiabCost = 0.00
     FinalLiabilityCost = ExtLiabCost * NumCars
 
     if GlassCover == "Y":
@@ -204,24 +186,20 @@ while True:
     InvoiceDateDisp = datetime.datetime.strftime(InvoiceDate, "%Y-%m-%d")
 
     FirstPayDate = nextpayment(InvoiceDate)
-    print(FirstPayDate)
 
 
 
     #Reciept
-
-
-
     PhoneNumDisp = phonenumdisplay(PhoneNum)
-    print(PhoneNumDisp)
 
+    NumCarsDisp = int(NumCars)
     AutoCostDisp = f"${AutoCost:>8,.2f}"
-    ExtLiabCostDisp = f"${FinalLiabilityCost:>7,.2f}"
+    ExtLiabCostDisp = f"${FinalLiabilityCost:>8,.2f}"
     GlassCovCostDisp = f"${FinalGlassCost:>7,.2f}"
     LoanerCostDisp = f"${LoanerCost:>7,.2f}"
     TotalExtCostDisp = f"${TotalExtCost:>8,.2f}"
     InsurancePremiumDisp = f"${InsurancePremium:>9,.2f}"
-    TaxesDisp = f"${Taxes:7,.2f}"
+    TaxesDisp = f"${Taxes:8,.2f}"
     TotalCostDisp = f"${TotalCost:9,.2f}"
     DownpayAmountDisp = f"${DownpayAmount:9,.2f}"
     MonthlyCostDisp = f"${MonthlyCost:7,.2f}"
@@ -231,7 +209,8 @@ while True:
     print(f"                  Insurance Claim Reciept")
     print(f"__________________________________________________________")
     print(f"")
-    print(f"Customer information:")
+    print(f"   Invoice Date: {InvoiceDateDisp}                          {POLICY}")
+    print(f"   Customer information:")
     print(f"")
     print(f"   First Name:                            {FirstName:>15s}")
     print(f"   Last Name                              {LastName:>15s}")
@@ -244,18 +223,18 @@ while True:
     print(f"")
     print(f"   Claim information:")
     print(f"")
-    print(f"   Number of vehicles on claim:                       {NumCars:>3d}")
+    print(f"   Number of vehicles on claim:                       {NumCarsDisp:>3d}")
     print(f"")
     print(f"   Premiums:                                    {AutoCostDisp}")
     print(f"")
-    print(f"   Extra Liability:                              {ExtLiabCostDisp}")
+    print(f"   Extra Liability:                             {ExtLiabCostDisp}")
     print(f"   Glass coverage:                               {GlassCovCostDisp}")
     print(f"   Loaner car:                                   {LoanerCostDisp}")
     print(f"")
     print(f"   Total extra costs:                           {TotalExtCostDisp}")
     print(f"")
     print(f"   Total Insurance premiums                    {InsurancePremiumDisp}")
-    print(f"   HST:                                          {TaxesDisp}")
+    print(f"   HST:                                         {TaxesDisp}")
     print(f"   Final Cost:                                 {TotalCostDisp}")
     print(f"__________________________________________________________")
     print(f"")
@@ -286,7 +265,6 @@ while True:
     else:
         if NextCust == "N":
             break
-
 
 
 
